@@ -28,6 +28,12 @@
 			<requires namespace="http://b3mn.org/stencilset/epc#"/>	
 			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
 		</plugin>
+		
+		<plugin source="query/recommendation.js" name="ORYX.Plugins.Recommendation">
+			<requires namespace="http://b3mn.org/stencilset/epc#"/>	
+			<requires namespace="http://b3mn.org/stencilset/bpmn1.1#"/>	
+			<requires namespace="http://b3mn.org/stencilset/bpmn2.0#"/>
+		</plugin>
 			
 		<!-- following plugins don't require Ext -->
 		<plugin source="arrangement.js" name="ORYX.Plugins.Arrangement">
@@ -97,5 +103,6 @@
 		<property group="Z-Order" index="6" />
 		<property group="Docker" index="7" />
 		<property group="Zoom" index="8" />	
+		<property group="Query" index="9" />	
 	</properties>
 </config>

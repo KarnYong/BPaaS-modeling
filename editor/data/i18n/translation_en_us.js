@@ -217,6 +217,12 @@ ORYX.I18N.Undo.undoDesc = "Undo the last action";
 ORYX.I18N.Undo.redo = "Redo";
 ORYX.I18N.Undo.redoDesc = "Redo the last undone action";
 
+if(!ORYX.I18N.Query) ORYX.I18N.Query = {};
+
+ORYX.I18N.Query.group = "Query";
+ORYX.I18N.Query.recommendation = "Recommendation";
+ORYX.I18N.Query.recommendationDesc = "Recommend process fragments";
+
 if(!ORYX.I18N.View) ORYX.I18N.View = {};
 
 ORYX.I18N.View.group = "Zoom";
