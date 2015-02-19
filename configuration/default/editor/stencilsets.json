@@ -1,5 +1,13 @@
 [
 		{
+            "title":"EPC",
+            "namespace":"http://b3mn.org/stencilset/epc#",
+            "description":"Event-driven Process Chain specification.",
+            "uri":"/epc/epc.json",
+            "icon_url":"/diagrams/epc-22x22.png",
+            "visible":true
+        },
+		{
             "title":"BPMN 1.2",
             "namespace":"http://b3mn.org/stencilset/bpmn1.1#",
             "description":"BPMN 1.2 stencil set specification.",
