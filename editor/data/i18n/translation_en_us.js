@@ -222,6 +222,11 @@ if(!ORYX.I18N.Query) ORYX.I18N.Query = {};
 ORYX.I18N.Query.group = "Query";
 ORYX.I18N.Query.recommendation = "Recommendation";
 ORYX.I18N.Query.recommendationDesc = "Recommend process fragments";
+ORYX.I18N.Query.selectTask = "Select Task";
+ORYX.I18N.Query.pleaseWait = "Processing";
+ORYX.I18N.Query.zone = "Zone number";
+ORYX.I18N.Query.queryRecommendationDesc = "Query for process fragments recommendation";
+ORYX.I18N.Query.executeQueryBtn = "Execute query";
 
 if(!ORYX.I18N.View) ORYX.I18N.View = {};
 

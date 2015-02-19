@@ -17,7 +17,9 @@
 /explorer/src/css/custom-style.css
 /platform/conf/classpath/configuration.properties
 /platform/target/
+/platform/bin/
 /target/
 
 ### Setting folder ###
 /.settings/
+/editor/.settings/
