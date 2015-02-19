@@ -1,0 +1,20 @@
+### Java ###
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+### Build files and folders ###
+/build/
+/configuration/build/
+/editor/build/
+/editor/buildApps
+/editor/data/stencilsets/extensions/extensions.json
+/editor/data/stencilsets/stencilsets.json
+/editor/src/scripts/Plugins/version.js
+/explorer/src/css/custom-style.css
+/platform/conf/classpath/configuration.properties
+/platform/target/
+/target/
