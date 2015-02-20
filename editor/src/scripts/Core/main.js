@@ -327,10 +327,25 @@ ORYX.Editor = {
 				
 				// DEFINES BOTTOM-AREA
 				south	: new Ext.Panel({
+					id : 'sounthPanel',
 					region	: 'south',
-					cls		: 'x-panel-editor-south',
+					layout	: 'fit',
 					autoEl	: 'div',
-					border	: false
+					collapseTitle : ORYX.I18N.View.South,
+					cls		: 'x-panel-editor-south',
+					margins: '5 0 0 0',
+			        cmargins: '5 5 0 0',
+			        height : 300,
+			        minSize: 100,
+			        maxSize: 500,
+			        border	:false,
+					cmargins: {left:0, right:0},
+					floatable: false,
+			        collapsible: true,
+			        split: true,
+			        collapseMode: 'mini',
+			        collapsed: true,
+			        title	:  ORYX.I18N.View.South,
 				}),
 				
 				

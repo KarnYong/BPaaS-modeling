@@ -16,7 +16,7 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 					name : ORYX.I18N.Query.recommendation,
 					description : ORYX.I18N.Query.recommendationDesc,
 					icon : ORYX.PATH + "images/query/recommendation.png",
-					functionality : this.querying.bind(this),
+					functionality : this.queryRecommend.bind(this),
 					group : ORYX.I18N.Query.group,
 					isEnabled : function() {
 						return true;
@@ -38,10 +38,16 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 	},
 	
 	/**
-	 * To do
+	 * querying
 	 */
-	querying : function(processId) {
+	queryRecommend : function(processId) {
 		// Ext.Msg.alert('Recommendation', 'Recommendation result.');
+		
+		// Collapse south panel if it expands
+		var sounthPanel = Ext.getCmp('sounthPanel');
+		if (sounthPanel.collapsed == false)
+			sounthPanel.toggleCollapse();
+		
 		var modelMeta = this.facade.getModelMetaData();
 		var reqURI = modelMeta.modelHandler;
 		var reqURIs = reqURI.split("/");
@@ -68,8 +74,8 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 		}
 
 		// create form
-		var formPanel = new Ext.form.FormPanel({
-			id : 'RecommendationFormPanel',
+		var queryRecommendFormPanel = new Ext.form.FormPanel({
+			id : 'queryRecommendFormPanel',
 			bodyStyle : 'padding:10px',
 			width : 'auto',
 			height : 'auto',
@@ -88,74 +94,15 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 				displayField : 'text',
 				mode : 'local',
 				triggerAction : 'all',
-				listeners : {
-					'select' : function() {
-						formPanel.body.mask(ORYX.I18N.Query.pleaseWait,
-								"x-waiting-box");
-						// get max zone
-						Ext.Ajax.request({
-							url : prefix + 'query/',
-							method : "GET",
-							timeout : 1800000,
-							disableCaching : true,
-							headers : {
-								'Accept' : "application/json",
-								'Content-Type' : 'charset=UTF-8'
-							},
-							params : {
-								id : 'getMaxZone',
-								task : this.getValue().strip(),
-								processID : modelMeta.name
-							},
-							success : function(transport) {
-								formPanel.body.unmask();
-								var zoneJson = transport.responseText
-										.evalJSON();
-								Ext.getCmp('zone').reset();
-								var zoneCmp = Ext.getCmp('zone');
-								var rt = Ext.data.Record.create([{
-											name : 'id'
-										}, {
-											name : 'text'
-										}]);
-								var zoneStore = new Ext.data.Store({
-											isAutoLoad : true,
-											reader : new Ext.data.JsonReader({
-														root : 'zone',
-														fields : [{
-																	name : 'id',
-																	mapping : 'id'
-																}, {
-																	name : 'text',
-																	mapping : 'text'
-																}]
-													}, rt)
-										})
-								zoneStore.loadData(zoneJson);
-								zoneCmp.bindStore(zoneStore);
-							},
-							failure : function(transport) {
-								formPanel.body.unmask();
-								Ext.getCmp('zone').reset();
-								var zoneCmp = Ext.getCmp('zone');
-								var zoneStore = new Ext.data.SimpleStore({
-											fields : ['id', 'text'],
-											data : [['1', '1'], ['2', '2'],
-													['3', '3'], ['4', '4'],
-													['5', '5']]
-										})
-								zoneCmp.bindStore(zoneStore);
-							}
-						})
-					}
-				}
 			}), new Ext.form.ComboBox({
 				fieldLabel : ORYX.I18N.Query.zone,
 				name : 'zone',
 				id : 'zone',
 				store : new Ext.data.SimpleStore({
 							fields : ['id', 'text'],
-							data : []
+							data : [['1', '1'], ['2', '2'],
+									['3', '3'], ['4', '4'],
+									['5', '5']]
 						}),
 				allowBlank : false,
 				emptyText : '-- select --',
@@ -167,39 +114,114 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 		});
 
 		// Create new window and attach form into it
-		var win = new Ext.Window({
-			id : 'New_Query_Window',
+		var queryRecommendWindow = new Ext.Window({
+			id : 'queryRecommendWindow',
 			width : 'auto',
 			height : 'auto',
 			title : ORYX.I18N.Query.queryRecommendationDesc,
 			modal : true,
 			resizable : false,
 			bodyStyle : 'background:#FFFFFF',
-			items : [formPanel],
+			items : [queryRecommendFormPanel],
 			defaultButton : 0,
 			buttons : [{
 				text : ORYX.I18N.Query.executeQueryBtn,
 				handler : function() {
-					win.body.mask(ORYX.I18N.Query.pleaseWait,
-							"x-waiting-box");
-	
-					window.setTimeout(function() {
-							}.bind(this), 10);
-				}
+					this.createSouthPanel();
+					queryRecommendWindow.close();
+				}.bind(this)
 			}, {
 				text : ORYX.I18N.Save.close,
 				handler : function() {
-					win.close();
+					queryRecommendWindow.close();
 				}.bind(this)
 			}],
 			listeners : {
 				close : function() {
-					win.destroy();
+					queryRecommendWindow.destroy();
 					delete this.saving;
 				}.bind(this)
 			}
 		});
-		win.show();
-	}
-
+		queryRecommendWindow.show();
+	},
+    
+	/**
+	 * create south panel 
+	 * added by Karn Yongsiriwit
+	 * */
+	createSouthPanel: function(){
+   		//create a tree node
+   		var recommendationTreeNode = new Ext.tree.AsyncTreeNode({
+			expanded:true,
+			leaf:false,
+			text:'Root queries'
+   		});
+	
+   		//create a tree
+   		var recommendationTreePanel = new Ext.tree.TreePanel({
+   			id: 'recommendationTreePanel',
+		  	loader: new Ext.tree.TreeLoader(),
+		  	rootVisible: false,
+		  	lines: false,
+			autoScroll: true,
+			layout: 'fit',
+			animate: true,
+			width: 200,
+			minSize: 200,
+			maxSize: 500,
+			region	: 'center',
+			root: recommendationTreeNode,
+   		});
+   		
+   		var svgPanel1 = new Ext.Panel({
+   			id: 'svgPanel1',
+			width: 500,
+			region	: 'west',
+			autoScroll: true,
+			layout: 'fit',
+			bodyStyle: 'background-color:#FF0000',
+		});
+   		
+   		var svgPanel2 = new Ext.Panel({
+   			id: 'svgPanel2',
+			width: 500,
+			region	: 'east',
+			autoScroll: true,
+			layout: 'fit',
+			bodyStyle: 'background-color:#E6FF00',
+		});
+   		
+		var recommendationPanel = new Ext.Panel({
+			layout:'border',
+		    defaults: {
+		        collapsible: true,
+		        split: true
+		    },
+		    width: 'auto',
+		    height: 'auto',
+		    items: [svgPanel1, recommendationTreePanel, svgPanel2]
+		});
+		
+	    
+	    var southTabPanel = Ext.getCmp('southTabPanel');
+	    if (southTabPanel)
+			southTabPanel.destroy();
+	    
+		southTabPanel = new Ext.TabPanel({
+			id: 'southTabPanel',
+		    activeTab: 0,
+			items: [{
+		    	id : 'recommendationPanel',
+		        title: ORYX.I18N.Query.recommendationDesc,
+		        layout: 'fit',
+		        items: [recommendationPanel]
+		    }]
+	    });
+		
+		var sounthPanel = Ext.getCmp('sounthPanel');
+		sounthPanel.add(southTabPanel);
+		sounthPanel.doLayout();
+		sounthPanel.expand(true);
+	},
 });
