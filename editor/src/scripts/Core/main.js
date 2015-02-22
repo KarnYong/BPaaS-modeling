@@ -327,7 +327,7 @@ ORYX.Editor = {
 				
 				// DEFINES BOTTOM-AREA
 				south	: new Ext.Panel({
-					id : 'sounthPanel',
+					id : 'southPanel',
 					region	: 'south',
 					layout	: 'fit',
 					autoEl	: 'div',

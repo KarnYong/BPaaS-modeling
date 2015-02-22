@@ -44,9 +44,9 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 		// Ext.Msg.alert('Recommendation', 'Recommendation result.');
 		
 		// Collapse south panel if it expands
-		var sounthPanel = Ext.getCmp('sounthPanel');
-		if (sounthPanel.collapsed == false)
-			sounthPanel.toggleCollapse();
+		var southPanel = Ext.getCmp('southPanel');
+		if (southPanel.collapsed == false)
+			southPanel.toggleCollapse();
 		
 		var modelMeta = this.facade.getModelMetaData();
 		var reqURI = modelMeta.modelHandler;
@@ -151,6 +151,156 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 	 * added by Karn Yongsiriwit
 	 * */
 	createSouthPanel: function(){
+		var queryRecommendFormPanel = Ext.getCmp('queryRecommendFormPanel');
+		queryRecommendFormPanel.body.mask(ORYX.I18N.Query.pleaseWait, "x-waiting-box");
+	   	Ext.Ajax.request({
+   			url				: ORYX.CONFIG.SERVER_HANDLER_ROOT + '/query/',
+   			method			: "GET",
+   			timeout			: 1800000,
+   			disableCaching	: true,
+   			headers			: {'Accept':"application/json", 'Content-Type':'charset=UTF-8'},
+   			params			: {
+   								id: 'getRecommendation',
+								processPath: decodeURIComponent(window.location.href.split("?id=")[1]).replace(/;/g, '\\')
+				              },
+   			success			: function(transport) {
+				   				var resJSON = transport.responseText.evalJSON();
+								// Create a Template
+								var dataDefault1 = {svg:resJSON.modelSVG};
+						   		var dialogIn1 = new Ext.XTemplate(	
+						   			'<div onmouseover="this.childNodes[1].style.display=\'inline\';" onmouseout="this.childNodes[1].style.display=\'none\';">',
+						   				'<div></div>',
+					        			'<span style="display:none; position:absolute; top:6px; left:20px;">',
+										'<img src="../explorer/src/img/famfamfam/zoom_in.png" onmouseover="this.style.cursor=\'pointer\';" ',
+									 		' onclick= "',
+									 		'this.nextSibling.nextSibling.value = parseFloat(this.nextSibling.nextSibling.value) + 0.1;',
+											'var size = this.nextSibling.nextSibling.value;',
+											'var sizeTxt = \'scale(\'+size+\')\';',
+											'document.getElementById(\'svgCanvas1\').childNodes[0].childNodes[1].setAttribute(\'transform\',sizeTxt);',
+											'"',
+										'/>',
+										'<img src="../explorer/src/img/famfamfam/zoom_out.png" onmouseover="this.style.cursor=\'pointer\';" ',
+									 		' onclick= "',
+									 		'this.nextSibling.value = parseFloat(this.nextSibling.value) - 0.1;',
+											'var size = this.nextSibling.value;',
+											'var sizeTxt = \'scale(\'+size+\')\';',
+											'document.getElementById(\'svgCanvas1\').childNodes[0].childNodes[1].setAttribute(\'transform\',sizeTxt);',
+										'"',
+										'/>',
+										'<input type="hidden" value="1.0"/>',
+									'</span>',
+										'<div id="svgCanvas1" style="text-align: center; align: center; margin: 0 auto;">{svg}</div>',
+									'</div>'
+								);
+						   		
+						   		var dataDefault2 = {svg:resJSON.modelSVG2};
+						   		var dialogIn2 = new Ext.XTemplate(	
+						   			'<div onmouseover="this.childNodes[1].style.display=\'inline\';" onmouseout="this.childNodes[1].style.display=\'none\';">',
+						   				'<div></div>',
+					        			'<span style="display:none; position:absolute; top:6px; left:20px;">',
+										'<img src="../explorer/src/img/famfamfam/zoom_in.png" onmouseover="this.style.cursor=\'pointer\';" ',
+									 		' onclick= "',
+									 		'this.nextSibling.nextSibling.value = parseFloat(this.nextSibling.nextSibling.value) + 0.1;',
+											'var size = this.nextSibling.nextSibling.value;',
+											'var sizeTxt = \'scale(\'+size+\')\';',
+											'document.getElementById(\'svgCanvas2\').childNodes[0].childNodes[1].setAttribute(\'transform\',sizeTxt);',
+											'"',
+										'/>',
+										'<img src="../explorer/src/img/famfamfam/zoom_out.png" onmouseover="this.style.cursor=\'pointer\';" ',
+									 		' onclick= "',
+									 		'this.nextSibling.value = parseFloat(this.nextSibling.value) - 0.1;',
+											'var size = this.nextSibling.value;',
+											'var sizeTxt = \'scale(\'+size+\')\';',
+											'document.getElementById(\'svgCanvas2\').childNodes[0].childNodes[1].setAttribute(\'transform\',sizeTxt);',
+										'"',
+										'/>',
+										'<input type="hidden" value="1.0"/>',
+									'</span>',
+										'<div id="svgCanvas2" style="text-align: center; align: center; margin: 0 auto;">{svg}</div>',
+									'</div>'
+								);
+						   		
+								var recommendationTreeNode = new Ext.tree.AsyncTreeNode({
+									expanded:true,
+									leaf:false,
+									text:'Root queries'
+								});
+				
+								//create a tree
+								var recommendationTreePanel = new Ext.tree.TreePanel({
+									id: 'recommendationTreePanel',
+									loader: new Ext.tree.TreeLoader(),
+									rootVisible: false,
+									lines: false,
+									autoScroll: true,
+									layout: 'fit',
+									animate: true,
+									width: 200,
+									minSize: 200,
+									maxSize: 500,
+									region	: 'center',
+									root: recommendationTreeNode,
+								});
+				
+								var svgPanel1 = new Ext.Panel({
+									title: 'Selected process fragment',
+						   			id: 'svgPanel1',
+									width: 500,
+									region	: 'west',
+									autoScroll: true,
+									layout: 'fit',
+									html: dialogIn1.apply(dataDefault1),
+									bodyStyle:    'background-color:#FFFFFE'
+								});
+								
+								var svgPanel2 = new Ext.Panel({
+									title: 'Recommended process fragment',
+						   			id: 'svgPanel2',
+									width: 500,
+									region	: 'east',
+									autoScroll: true,
+									layout: 'fit',
+									html: dialogIn2.apply(dataDefault2),
+									bodyStyle:    'background-color:#FFFFFE'
+								});
+								
+								var recommendationPanel = new Ext.Panel({
+									layout:'border',
+									defaults: {
+										collapsible: true,
+										split: true
+									},
+									width: 'auto',
+									height: 'auto',
+									items: [svgPanel1, recommendationTreePanel, svgPanel2]
+								});
+		
+		
+								var southTabPanel = Ext.getCmp('southTabPanel');
+								if (southTabPanel)
+									southTabPanel.destroy();
+			
+								southTabPanel = new Ext.TabPanel({
+									id: 'southTabPanel',
+									activeTab: 0,
+									items: [{
+										id : 'recommendationPanel',
+										title: ORYX.I18N.Query.recommendationDesc,
+										layout: 'fit',
+										items: [recommendationPanel]
+									}]
+								});
+			
+								var southPanel = Ext.getCmp('southPanel');
+								southPanel.add(southTabPanel);
+								southPanel.doLayout();
+								southPanel.expand(true);
+							  },
+   			failure			: function(transport) {
+   								Ext.Msg.alert('Recommendation', 'Recommendation failure.');
+							  }
+   		})
+//		Ext.Msg.alert('Recommendation', window.location.href.replace(/#.*/g, "").split("?id=")[1]);
    		//create a tree node
    		var recommendationTreeNode = new Ext.tree.AsyncTreeNode({
 			expanded:true,
@@ -219,9 +369,9 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 		    }]
 	    });
 		
-		var sounthPanel = Ext.getCmp('sounthPanel');
-		sounthPanel.add(southTabPanel);
-		sounthPanel.doLayout();
-		sounthPanel.expand(true);
+		var southPanel = Ext.getCmp('southPanel');
+		southPanel.add(southTabPanel);
+		southPanel.doLayout();
+		southPanel.expand(true);
 	},
 });
