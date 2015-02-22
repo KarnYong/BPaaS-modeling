@@ -219,15 +219,15 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 										'<div id="svgCanvas2" style="text-align: center; align: center; margin: 0 auto;">{svg}</div>',
 									'</div>'
 								);
-						   		
+									
 								var recommendationTreeNode = new Ext.tree.AsyncTreeNode({
-									expanded:true,
-									leaf:false,
-									text:'Root queries'
+									cls: "headerQueryEntree",
+									text: 'Recommendation',
+									children: resJSON.recommendsJSON
 								});
 				
-								//create a tree
 								var recommendationTreePanel = new Ext.tree.TreePanel({
+									title: 'Recommendation',
 									id: 'recommendationTreePanel',
 									loader: new Ext.tree.TreeLoader(),
 									rootVisible: false,
@@ -263,7 +263,7 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 									html: dialogIn2.apply(dataDefault2),
 									bodyStyle:    'background-color:#FFFFFE'
 								});
-								
+									
 								var recommendationPanel = new Ext.Panel({
 									layout:'border',
 									defaults: {
@@ -274,12 +274,11 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 									height: 'auto',
 									items: [svgPanel1, recommendationTreePanel, svgPanel2]
 								});
-		
-		
+				
 								var southTabPanel = Ext.getCmp('southTabPanel');
 								if (southTabPanel)
 									southTabPanel.destroy();
-			
+				
 								southTabPanel = new Ext.TabPanel({
 									id: 'southTabPanel',
 									activeTab: 0,
@@ -290,7 +289,7 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 										items: [recommendationPanel]
 									}]
 								});
-			
+				
 								var southPanel = Ext.getCmp('southPanel');
 								southPanel.add(southTabPanel);
 								southPanel.doLayout();

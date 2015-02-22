@@ -67,14 +67,15 @@ public class QueryHandler extends BasisHandler {
 	private void getRecommendation(JSONObject jParams, HttpServletRequest req, HttpServletResponse res, FsAccessToken token) {
 		try {
 			String processPath = jParams.getString("processPath");
-			
-			JSONObject json = new JSONObject();
-			JSONObject result = new JSONObject();			
+				
     		
     		String modelSVG = getSvgRepresentation(new File(URLDecoder.decode(processPath, "UTF-8")));
-    		String modelSVG2 = getSvgRepresentation(new File("C:\\repo\\Invoice\\BPaaS1.signavio.xml"));
-    		
+    		String modelSVG2 = getSvgRepresentation(new File("C:\\repo\\Invoice\\BPaaS2.signavio.xml"));
+    		JSONArray recommendsJSON = getRecommendationJSON();
+
+			JSONObject result = new JSONObject();		
     		result.put("modelSVG", modelSVG);
+    		result.put("recommendsJSON", recommendsJSON);
     		result.put("modelSVG2", modelSVG2);
     		
 			res.getWriter().write(result.toString());
@@ -124,6 +125,36 @@ public class QueryHandler extends BasisHandler {
 			e.printStackTrace();
 		}
 		return svgTxt;
+	}
+	
+	public JSONArray getRecommendationJSON() {
+		JSONArray recommendsJSON = new JSONArray();
+		try {
+			JSONObject recommendJSON1 = new JSONObject();
+			recommendJSON1.put("processID", "C:\\repo\\Invoice\\BPaaS1.signavio.xml");
+			recommendJSON1.put("rootTask", "Send Promotion");
+			recommendJSON1.put("zone", "2");
+			recommendJSON1.put("text", "1. BPaaS1 - Send Promotion (radius: 2, sim: 0.6)");
+			recommendJSON1.put("icon", "../editor/images/box.png");
+			recommendJSON1.put("leaf", true);
+			recommendJSON1.put("cls", "QueryEntree");
+			recommendsJSON.put(recommendJSON1);
+			
+			JSONObject recommendJSON2 = new JSONObject();
+			recommendJSON2.put("processID", "C:\\repo\\Invoice\\BPaaS2.signavio.xml");
+			recommendJSON2.put("rootTask", "Invoice notification");
+			recommendJSON2.put("zone", "2");
+			recommendJSON2.put("text", "2. BPaaS1 - Send Promotion (radius: 3, sim: 0.3)");
+			recommendJSON2.put("icon", "../editor/images/box.png");
+			recommendJSON2.put("leaf", true);
+			recommendJSON2.put("cls", "QueryEntree");
+			recommendsJSON.put(recommendJSON2);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return recommendsJSON;
 	}
 
 	/////////    DO POST //////////////////////////////////////
