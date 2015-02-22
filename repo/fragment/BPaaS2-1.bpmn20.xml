@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:signavio="http://www.signavio.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion="" expressionLanguage="http://www.w3.org/1999/XPath" id="sid-9b0fd89c-d389-408f-94ae-b80ba9cddd44" targetNamespace="http://www.signavio.com/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+   <process id="sid-ce718f6e-70ee-477e-ac44-c671ddf3bb5f" isExecutable="false">
+      <task completionQuantity="1" id="sid-863DBD85-CF89-44B3-A168-CF7148DA69E4" isForCompensation="false" name="Deliver invoice" startQuantity="1">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffcc"/>
+         </extensionElements>
+         <outgoing>sid-3186104D-E505-4593-A11C-365E0BCF0FD2</outgoing>
+      </task>
+      <parallelGateway gatewayDirection="Unspecified" id="sid-638E7764-46F5-46A2-B33B-FDE97F06B3B1" name="">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+         <incoming>sid-3186104D-E505-4593-A11C-365E0BCF0FD2</incoming>
+         <outgoing>sid-9D4DDB1A-A4FC-4439-B72A-39895BB3E914</outgoing>
+      </parallelGateway>
+      <intermediateCatchEvent id="sid-D5FCD344-EF8E-4E6B-9F8E-DC38A3B7750C" name="Promotion&#10;requested">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+         <incoming>sid-9D4DDB1A-A4FC-4439-B72A-39895BB3E914</incoming>
+         <outgoing>sid-432E94F3-65DC-4A3D-B088-8D6A3D5B8133</outgoing>
+         <messageEventDefinition id="sid-e417bf43-94b9-4d75-bc51-4b0967f60423"/>
+      </intermediateCatchEvent>
+      <task completionQuantity="1" id="sid-46129159-3005-4E02-99D1-30668235A64B" isForCompensation="false" name="Send promotion" startQuantity="1">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffcc"/>
+         </extensionElements>
+         <incoming>sid-432E94F3-65DC-4A3D-B088-8D6A3D5B8133</incoming>
+         <outgoing>sid-7F62465F-9BF8-4023-BDC9-5CDC4227DB27</outgoing>
+      </task>
+      <endEvent id="sid-60E80902-EEE9-4ADF-9658-DA8253053959" name="Promotion&#10;sent">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+         <incoming>sid-7F62465F-9BF8-4023-BDC9-5CDC4227DB27</incoming>
+      </endEvent>
+      <sequenceFlow id="sid-3186104D-E505-4593-A11C-365E0BCF0FD2" name="" sourceRef="sid-863DBD85-CF89-44B3-A168-CF7148DA69E4" targetRef="sid-638E7764-46F5-46A2-B33B-FDE97F06B3B1"/>
+      <sequenceFlow id="sid-9D4DDB1A-A4FC-4439-B72A-39895BB3E914" name="" sourceRef="sid-638E7764-46F5-46A2-B33B-FDE97F06B3B1" targetRef="sid-D5FCD344-EF8E-4E6B-9F8E-DC38A3B7750C"/>
+      <sequenceFlow id="sid-432E94F3-65DC-4A3D-B088-8D6A3D5B8133" name="" sourceRef="sid-D5FCD344-EF8E-4E6B-9F8E-DC38A3B7750C" targetRef="sid-46129159-3005-4E02-99D1-30668235A64B"/>
+      <sequenceFlow id="sid-7F62465F-9BF8-4023-BDC9-5CDC4227DB27" name="" sourceRef="sid-46129159-3005-4E02-99D1-30668235A64B" targetRef="sid-60E80902-EEE9-4ADF-9658-DA8253053959"/>
+   </process>
+   <bpmndi:BPMNDiagram id="sid-c43b6fe9-8c32-4763-ba65-5435b26dda43">
+      <bpmndi:BPMNPlane bpmnElement="sid-ce718f6e-70ee-477e-ac44-c671ddf3bb5f" id="sid-782a70f8-58d3-4d0f-89ef-8e08d25b3f0e">
+         <bpmndi:BPMNShape bpmnElement="sid-863DBD85-CF89-44B3-A168-CF7148DA69E4" id="sid-863DBD85-CF89-44B3-A168-CF7148DA69E4_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="23.0" y="20.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-638E7764-46F5-46A2-B33B-FDE97F06B3B1" id="sid-638E7764-46F5-46A2-B33B-FDE97F06B3B1_gui">
+            <omgdc:Bounds height="40.0" width="40.0" x="173.0" y="40.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-D5FCD344-EF8E-4E6B-9F8E-DC38A3B7750C" id="sid-D5FCD344-EF8E-4E6B-9F8E-DC38A3B7750C_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="257.0" y="105.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-46129159-3005-4E02-99D1-30668235A64B" id="sid-46129159-3005-4E02-99D1-30668235A64B_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="332.0" y="80.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-60E80902-EEE9-4ADF-9658-DA8253053959" id="sid-60E80902-EEE9-4ADF-9658-DA8253053959_gui">
+            <omgdc:Bounds height="28.0" width="28.0" x="477.0" y="106.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNEdge bpmnElement="sid-7F62465F-9BF8-4023-BDC9-5CDC4227DB27" id="sid-7F62465F-9BF8-4023-BDC9-5CDC4227DB27_gui">
+            <omgdi:waypoint x="432.0" y="120.0"/>
+            <omgdi:waypoint x="477.0" y="120.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-9D4DDB1A-A4FC-4439-B72A-39895BB3E914" id="sid-9D4DDB1A-A4FC-4439-B72A-39895BB3E914_gui">
+            <omgdi:waypoint x="193.0" y="80.0"/>
+            <omgdi:waypoint x="193.5" y="120.0"/>
+            <omgdi:waypoint x="257.0" y="120.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-3186104D-E505-4593-A11C-365E0BCF0FD2" id="sid-3186104D-E505-4593-A11C-365E0BCF0FD2_gui">
+            <omgdi:waypoint x="123.0" y="60.0"/>
+            <omgdi:waypoint x="173.0" y="60.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-432E94F3-65DC-4A3D-B088-8D6A3D5B8133" id="sid-432E94F3-65DC-4A3D-B088-8D6A3D5B8133_gui">
+            <omgdi:waypoint x="287.0" y="120.0"/>
+            <omgdi:waypoint x="332.0" y="120.0"/>
+         </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+   </bpmndi:BPMNDiagram>
+</definitions>
