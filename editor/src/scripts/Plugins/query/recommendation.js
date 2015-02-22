@@ -193,7 +193,7 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 									'</div>'
 								);
 						   		
-						   		var dataDefault2 = {svg:resJSON.modelSVG2};
+						   		var dataDefault2 = {svg:resJSON.recommends[0].svg};
 						   		var dialogIn2 = new Ext.XTemplate(	
 						   			'<div onmouseover="this.childNodes[1].style.display=\'inline\';" onmouseout="this.childNodes[1].style.display=\'none\';">',
 						   				'<div></div>',
@@ -219,52 +219,168 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 										'<div id="svgCanvas2" style="text-align: center; align: center; margin: 0 auto;">{svg}</div>',
 									'</div>'
 								);
+						   		
+						   		var rt = Ext.data.Record.create([
+   		              			    {name: 'process'},
+   		              			    {name: 'task'},
+   		              			    {name: 'zone'},
+   		              			    {name: 'sim'},
+   		              			    {name: 'svg'}
+   		              			]);
+   		              			var resultStore = new Ext.data.Store ({
+   		              				isAutoLoad: true,
+   		              			    reader: new Ext.data.JsonReader({
+   		              			    	root: 'recommends',
+   		              				    fields: [
+   		              				        {name: 'process', mapping: 'process'},
+   		              				        {name: 'task', mapping: 'task'},
+   		              				        {name: 'zone', mapping: 'zone'},
+   		              				        {name: 'sim', mapping: 'sim'},
+   		              				        {name: 'svg', mapping: 'svg'}
+   		              				    ]},rt)
+   		              			});
+   		              			resultStore.loadData(resJSON);
+	   		              		var setSVGToSVGPanel2 = function(smObject, rowIndex, record){
+									var dataDefault2 = {svg:record.get('svg')};
+									var dialogIn2 = new Ext.XTemplate(	
+										'<div onmouseover="this.childNodes[1].style.display=\'inline\';" onmouseout="this.childNodes[1].style.display=\'none\';">',
+											'<div></div>',
+											'<span style="display:none; position:absolute; top:6px; left:20px;">',
+											'<img src="../explorer/src/img/famfamfam/zoom_in.png" onmouseover="this.style.cursor=\'pointer\';" ',
+												' onclick= "',
+												'this.nextSibling.nextSibling.value = parseFloat(this.nextSibling.nextSibling.value) + 0.1;',
+												'var size = this.nextSibling.nextSibling.value;',
+												'var sizeTxt = \'scale(\'+size+\')\';',
+												'document.getElementById(\'svgCanvas2\').childNodes[0].childNodes[1].setAttribute(\'transform\',sizeTxt);',
+												'"',
+											'/>',
+											'<img src="../explorer/src/img/famfamfam/zoom_out.png" onmouseover="this.style.cursor=\'pointer\';" ',
+												' onclick= "',
+												'this.nextSibling.value = parseFloat(this.nextSibling.value) - 0.1;',
+												'var size = this.nextSibling.value;',
+												'var sizeTxt = \'scale(\'+size+\')\';',
+												'document.getElementById(\'svgCanvas2\').childNodes[0].childNodes[1].setAttribute(\'transform\',sizeTxt);',
+											'"',
+											'/>',
+											'<input type="hidden" value="1.0"/>',
+										'</span>',
+											'<div id="svgCanvas2" style="text-align: center; align: center; margin: 0 auto;">{svg}</div>',
+										'</div>'
+									);
+
+									var svgPanel2 = Ext.getCmp('svgPanel2');
+									var svgPanel2Parent = Ext.getCmp('svgPanel2Parent');
+									if(svgPanel2){
+										svgPanel2Parent.remove(svgPanel2);
+		   			        		}
+																		
+									svgPanel2 = new Ext.Panel({
+										id: 'svgPanel2',
+										autoScroll: true,
+ 										html: dialogIn2.apply(dataDefault2),
+										bodyStyle:    'background-color:#FFFFEF'
+									});
+									svgPanel2Parent.add(svgPanel2);
+									svgPanel2Parent.doLayout();
 									
-								var recommendationTreeNode = new Ext.tree.AsyncTreeNode({
-									cls: "headerQueryEntree",
-									text: 'Recommendation',
-									children: resJSON.recommendsJSON
-								});
-				
-								var recommendationTreePanel = new Ext.tree.TreePanel({
-									title: 'Recommendation',
-									id: 'recommendationTreePanel',
-									loader: new Ext.tree.TreeLoader(),
-									rootVisible: false,
-									lines: false,
-									autoScroll: true,
-									layout: 'fit',
-									animate: true,
-									width: 200,
-									minSize: 200,
-									maxSize: 500,
-									region	: 'center',
-									root: recommendationTreeNode,
-								});
+								}.bind(this);
+							
+		   		              	var recommendsGrid = new Ext.grid.GridPanel({
+		   		     				id:	'recommendsGrid',
+		   		     			    store: resultStore,
+		   		     			    autoScroll: true,
+		   		     			    colModel: new Ext.grid.ColumnModel({
+		   		     			    	defaultSortable: true,
+		   		     			    	defaults: {
+		   		     			            sortable: true
+		   		     			        },
+		   		     					
+		   		     					columns: [
+		   		     						{id: 'process', width: 100, header: 'Process', dataIndex: 'process', type:'string', 
+		   		     							renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+		   		     								return value;
+		   		     							}
+		   		     						}, 
+		   		     						{id: 'task', width: 200, header: 'Task', dataIndex: 'task', type:'string', 
+		   		     							renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+		   		     								return value;
+		   		     							}
+		   		     						}, 
+		   		     						{id: 'zone', width: 50, header: 'Zone', dataIndex: 'zone', type:'string', 
+		   		     							renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+		   		     								return value;
+		   		     							}
+		   		     						}, 
+		   		     			            {id: 'sim', width: 50, header: 'Sim', dataIndex: 'sim', type:'string', 
+		   		     			            	renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+		//   		     			            		metaData.attr = 'ext:qtip="' + value + '"';
+		   		     			            		return value;
+		   		     			            	}
+		   		     			            }
+//		   		     			            {id: 'svg', width: 12, header: 'SVG', dataIndex: 'svg', type:'svg', 
+//		   		     			            	renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+//		//   		     			            		metaData.attr = 'ext:qtip="' + value + '"';
+//		   		     			            		return value;
+//		   		     			            	}
+//		   		     			            }
+		   		     		            ]
+		   		     			    }),
+		   		     			    viewConfig: {
+		   		     			        forceFit: true,
+		   		     			    },
+		   		     			    sm: new Ext.grid.RowSelectionModel({
+		   		     	                singleSelect: true,
+		   		     	                listeners: {
+		   		     	                     rowselect: setSVGToSVGPanel2
+		   		     	                }
+		   		     	            }),
+		   		     			    region: 'center',
+		   		     			    iconCls: 'icon-grid'
+		   		     			});								
 				
 								var svgPanel1 = new Ext.Panel({
-									title: 'Selected process fragment',
-						   			id: 'svgPanel1',
-									width: 500,
-									region	: 'west',
+									id: 'svgPanel1',
 									autoScroll: true,
-									layout: 'fit',
 									html: dialogIn1.apply(dataDefault1),
 									bodyStyle:    'background-color:#FFFFFE'
 								});
-								
+															
 								var svgPanel2 = new Ext.Panel({
-									title: 'Recommended process fragment',
-						   			id: 'svgPanel2',
-									width: 500,
-									region	: 'east',
+									id: 'svgPanel2',
 									autoScroll: true,
-									layout: 'fit',
 									html: dialogIn2.apply(dataDefault2),
 									bodyStyle:    'background-color:#FFFFFE'
 								});
+								
+								var recommendsGridPanel = new Ext.Panel({
+						   			id: 'recommendsGridPanel',
+									title: 'Recommendation',
+									width: 500,
+									region	: 'center',
+									autoScroll: true,
+									items: [recommendsGrid]
+								});
+								
+								var svgPanel1Parent = new Ext.Panel({
+						   			id: 'svgPanel1Parent',
+									title: 'Selected process fragment',
+									width: 500,
+									region	: 'west',
+									autoScroll: true,
+									items: [svgPanel1]
+								});
+								
+								var svgPanel2Parent = new Ext.Panel({
+						   			id: 'svgPanel2Parent',
+									title: 'Recommended process fragment',
+									width: 500,
+									region	: 'east',
+									autoScroll: true,
+									items: [svgPanel2]
+								});
 									
 								var recommendationPanel = new Ext.Panel({
+									id : 'recommendationPanel',
 									layout:'border',
 									defaults: {
 										collapsible: true,
@@ -272,7 +388,7 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 									},
 									width: 'auto',
 									height: 'auto',
-									items: [svgPanel1, recommendationTreePanel, svgPanel2]
+									items: [svgPanel1Parent, recommendsGridPanel, svgPanel2Parent]
 								});
 				
 								var southTabPanel = Ext.getCmp('southTabPanel');
@@ -283,7 +399,6 @@ ORYX.Plugins.Recommendation = Clazz.extend({
 									id: 'southTabPanel',
 									activeTab: 0,
 									items: [{
-										id : 'recommendationPanel',
 										title: ORYX.I18N.Query.recommendationDesc,
 										layout: 'fit',
 										items: [recommendationPanel]
@@ -299,78 +414,5 @@ ORYX.Plugins.Recommendation = Clazz.extend({
    								Ext.Msg.alert('Recommendation', 'Recommendation failure.');
 							  }
    		})
-//		Ext.Msg.alert('Recommendation', window.location.href.replace(/#.*/g, "").split("?id=")[1]);
-   		//create a tree node
-   		var recommendationTreeNode = new Ext.tree.AsyncTreeNode({
-			expanded:true,
-			leaf:false,
-			text:'Root queries'
-   		});
-	
-   		//create a tree
-   		var recommendationTreePanel = new Ext.tree.TreePanel({
-   			id: 'recommendationTreePanel',
-		  	loader: new Ext.tree.TreeLoader(),
-		  	rootVisible: false,
-		  	lines: false,
-			autoScroll: true,
-			layout: 'fit',
-			animate: true,
-			width: 200,
-			minSize: 200,
-			maxSize: 500,
-			region	: 'center',
-			root: recommendationTreeNode,
-   		});
-   		
-   		var svgPanel1 = new Ext.Panel({
-   			id: 'svgPanel1',
-			width: 500,
-			region	: 'west',
-			autoScroll: true,
-			layout: 'fit',
-			bodyStyle: 'background-color:#FF0000',
-		});
-   		
-   		var svgPanel2 = new Ext.Panel({
-   			id: 'svgPanel2',
-			width: 500,
-			region	: 'east',
-			autoScroll: true,
-			layout: 'fit',
-			bodyStyle: 'background-color:#E6FF00',
-		});
-   		
-		var recommendationPanel = new Ext.Panel({
-			layout:'border',
-		    defaults: {
-		        collapsible: true,
-		        split: true
-		    },
-		    width: 'auto',
-		    height: 'auto',
-		    items: [svgPanel1, recommendationTreePanel, svgPanel2]
-		});
-		
-	    
-	    var southTabPanel = Ext.getCmp('southTabPanel');
-	    if (southTabPanel)
-			southTabPanel.destroy();
-	    
-		southTabPanel = new Ext.TabPanel({
-			id: 'southTabPanel',
-		    activeTab: 0,
-			items: [{
-		    	id : 'recommendationPanel',
-		        title: ORYX.I18N.Query.recommendationDesc,
-		        layout: 'fit',
-		        items: [recommendationPanel]
-		    }]
-	    });
-		
-		var southPanel = Ext.getCmp('southPanel');
-		southPanel.add(southTabPanel);
-		southPanel.doLayout();
-		southPanel.expand(true);
 	},
 });

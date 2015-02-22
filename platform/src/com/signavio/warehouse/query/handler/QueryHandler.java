@@ -78,6 +78,8 @@ public class QueryHandler extends BasisHandler {
     		result.put("recommendsJSON", recommendsJSON);
     		result.put("modelSVG2", modelSVG2);
     		
+    		result.put("recommends", getRecommendations());
+    		
 			res.getWriter().write(result.toString());
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
@@ -130,6 +132,9 @@ public class QueryHandler extends BasisHandler {
 	public JSONArray getRecommendationJSON() {
 		JSONArray recommendsJSON = new JSONArray();
 		try {
+			String modelSVG1 = getSvgRepresentation(new File("C:\\repo\\Invoice\\BPaaS1.signavio.xml"));
+			String modelSVG2 = getSvgRepresentation(new File("C:\\repo\\Invoice\\BPaaS2.signavio.xml"));
+			
 			JSONObject recommendJSON1 = new JSONObject();
 			recommendJSON1.put("processID", "C:\\repo\\Invoice\\BPaaS1.signavio.xml");
 			recommendJSON1.put("rootTask", "Send Promotion");
@@ -138,8 +143,9 @@ public class QueryHandler extends BasisHandler {
 			recommendJSON1.put("icon", "../editor/images/box.png");
 			recommendJSON1.put("leaf", true);
 			recommendJSON1.put("cls", "QueryEntree");
+			recommendJSON1.put("modelSVG", modelSVG1);
 			recommendsJSON.put(recommendJSON1);
-			
+						
 			JSONObject recommendJSON2 = new JSONObject();
 			recommendJSON2.put("processID", "C:\\repo\\Invoice\\BPaaS2.signavio.xml");
 			recommendJSON2.put("rootTask", "Invoice notification");
@@ -148,12 +154,50 @@ public class QueryHandler extends BasisHandler {
 			recommendJSON2.put("icon", "../editor/images/box.png");
 			recommendJSON2.put("leaf", true);
 			recommendJSON2.put("cls", "QueryEntree");
+			recommendJSON2.put("modelSVG", modelSVG2);
 			recommendsJSON.put(recommendJSON2);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		return recommendsJSON;
+	}
+	
+	public JSONArray getRecommendations() {
+		JSONArray recommendsJSON = new JSONArray();
+		try {
+			String modelSVG2_1 = getSvgRepresentation(new File("C:\\repo\\fragment\\BPaaS2-1.signavio.xml"));
+			String modelSVG2_2 = getSvgRepresentation(new File("C:\\repo\\fragment\\BPaaS2-2.signavio.xml"));
+			String modelSVG2_3 = getSvgRepresentation(new File("C:\\repo\\fragment\\BPaaS2-3.signavio.xml"));
+			
+			JSONObject recommendJSON1 = new JSONObject();
+			recommendJSON1.put("process", "BPaaS2");
+			recommendJSON1.put("task", "Send Promotion");
+			recommendJSON1.put("zone", "1");
+			recommendJSON1.put("sim", "0.75");
+			recommendJSON1.put("svg", modelSVG2_1);
+			recommendsJSON.put(recommendJSON1);
+						
+			JSONObject recommendJSON2 = new JSONObject();
+			recommendJSON2.put("process", "BPaaS2");
+			recommendJSON2.put("task", "Send Promotion");
+			recommendJSON2.put("zone", "2");
+			recommendJSON2.put("sim", " 0.67");
+			recommendJSON2.put("svg", modelSVG2_2);
+			recommendsJSON.put(recommendJSON2);
+			
+			JSONObject recommendJSON3 = new JSONObject();
+			recommendJSON3.put("process", "BPaaS2");
+			recommendJSON3.put("task", "Send Promotion");
+			recommendJSON3.put("zone", "3");
+			recommendJSON3.put("sim", " 0.60");
+			recommendJSON3.put("svg", modelSVG2_3);
+			recommendsJSON.put(recommendJSON3);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return recommendsJSON;
 	}
 
