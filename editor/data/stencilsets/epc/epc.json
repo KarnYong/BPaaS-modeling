@@ -4,6 +4,74 @@
 	"namespace":"http://b3mn.org/stencilset/epc#",
 	"description":"Event-driven Process Chains can be used for modeling of business processes.",
 	"description_de":"Ereignis-gesteuerte Prozessketten können für die Ablaufmodellierung von Geschäftsprozessen verwendet werden.",
+ 	"propertyPackages": [
+ 		{
+ 			"name":"semanticAttributes",
+ 			"properties": [
+				{
+					"id":"semanticinstance",
+					"type":"String",
+					"title":"Semantic instance",
+					"value":"",
+					"description":"Semantic instance",
+					"readonly":false,
+					"optional":true,
+					"popular" : true
+				},
+				{
+					"id":"metamodelconcept",
+					"type":"String",
+					"title":"Meta-model concept",
+					"value":"",
+					"description":"Meta-model concept",
+					"readonly":false,
+					"optional":true,
+					"popular" : true
+				},
+				{
+					"id":"metamodelproperty",
+					"type":"Complex",
+					"title":"Meta-model properties",
+					"title_de":"",
+					"value":"",
+					"description":"",
+					"description_de":"",
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"property",
+							"name":"Property",
+							"name_de":"property",
+							"type":"String",
+							"value":"",
+							"width":200,
+							"optional":false
+						},
+						{
+							"id":"value",
+							"name":"Value or instances",
+							"name_de":"value",
+							"type":"String",
+							"value":"",
+							"width":200,
+							"optional":false
+						},
+					]
+				},
+				{
+					"id":"domainconcept",
+					"type":"String",
+					"title":"Domain-specific concept",
+					"value":"",
+					"description":"Domain-specific concept",
+					"readonly":false,
+					"optional":true,
+					"popular" : true
+				}
+ 			]
+ 		}
+	],
  	"stencils" : [
   		{
 			"type": "node",
@@ -16,6 +84,8 @@
 			"description_de":"Diagramm",
 			"view":"node.diagram.svg",
 			"icon":"new_diagram.png",
+			"propertyPackages":["semanticAttributes"],
+			"propertyPackages":["semanticAttributes"],
 			"roles": [ "diagram" ],
 			"properties": [
 				{
@@ -81,6 +151,7 @@
 			"view":"node.event.svg",
 			"icon":"new_event.png",
 			"defaultAlign":"south",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"event",
 				"all",
@@ -157,6 +228,7 @@
 			"view":"node.function.svg",
 			"icon":"new_function.png",
 			"defaultAlign":"south",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"function",
 				"all",
@@ -247,6 +319,7 @@
 			"icon":"new_and.png",
 			"intersectionType":"ellipse",	
 			"defaultAlign":"south",		
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"andConnector",
 				"connector",
@@ -281,6 +354,7 @@
 			"icon":"new_xor.png",
 			"intersectionType":"ellipse",
 			"defaultAlign":"south",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"orXorConnector",
 				"connector",
@@ -315,6 +389,7 @@
 			"icon":"new_or.png",
 			"intersectionType":"ellipse",
 			"defaultAlign":"south",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"orXorConnector",
 				"connector",
@@ -347,6 +422,7 @@
 			"groups":[],
 			"view":"connection.flow.svg",
 			"icon":"new_flow.png",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"epcEdge",
 				"all",
@@ -380,6 +456,7 @@
 			"view":"node.pInterface.svg",
 			"icon":"new_pInterface.png",
 			"defaultAlign":"south",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"interface",
 				"all",
@@ -465,6 +542,7 @@
 			"view":"node.organization.svg",
 			"icon":"new_organization.png",
 			"defaultAlign":"east",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"InRelWithF",
 				"all",
@@ -524,6 +602,7 @@
 			"view":"node.position.svg",
 			"icon":"new_position.png",
 			"defaultAlign":"east",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"InRelWithF",
 				"all",
@@ -584,6 +663,7 @@
 			"view":"node.data.svg",
 			"icon":"new_data.png",
 			"defaultAlign":"west",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"InRelWithF",
 				"InRelWithE",
@@ -645,6 +725,7 @@
 			"view":"node.system.svg",
 			"icon":"new_system.png",
 			"defaultAlign":"east",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"InRelWithF",
 				"all",
@@ -704,6 +785,7 @@
 			"description_de":"Eine Textnotiz für beliebige Kommentare.",
 			"view":"node.text.note.svg",
 			"icon":"new_text_note.png",
+			"propertyPackages":["semanticAttributes"],
 			"roles": ["all"],
 			"properties": [
 				{
@@ -759,6 +841,7 @@
 			"groups":[],
 			"view":"connection.relation.svg",
 			"icon":"new_relation.png",
+			"propertyPackages":["semanticAttributes"],
 			"roles": [
 				"relationEdge",
 				"all",
