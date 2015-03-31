@@ -1536,5 +1536,14 @@
 			<xsd:enumeration value="humanTaskWebService"/>
 		</xsd:restriction>
 	</xsd:simpleType>	
-
+	
+	<xsd:element name="storage" type="tStorage" substitutionGroup="rootElement"/>	
+	<xsd:complexType name="tStorage">
+		<xsd:complexContent>
+			<xsd:extension base="tRootElement">
+				<xsd:attribute name="capacity" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>	
+	
 </xsd:schema>

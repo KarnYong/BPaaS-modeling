@@ -65,6 +65,7 @@ import de.hpi.bpmn2_0.model.choreography.Choreography;
 import de.hpi.bpmn2_0.model.choreography.ChoreographyActivity;
 import de.hpi.bpmn2_0.model.choreography.ChoreographyTask;
 import de.hpi.bpmn2_0.model.choreography.SubChoreography;
+import de.hpi.bpmn2_0.model.cloudresource.Storage;
 import de.hpi.bpmn2_0.model.connector.Association;
 import de.hpi.bpmn2_0.model.connector.DataAssociation;
 import de.hpi.bpmn2_0.model.connector.DataInputAssociation;
@@ -735,7 +736,59 @@ public class Diagram2BpmnConverter {
 			}
 		}
 	}
+	
 
+
+	/**
+	 * Assigns the Storages to the appropriate {@link Process}.
+	 */
+	private void handleStorages() {
+		ArrayList<Storage> storages = new ArrayList<Storage>();
+		this.getAllStorages(this.diagramChilds, storages);
+
+		for (Storage storage : storages) {
+			if (storage.getProcess() != null)
+				continue;
+
+			if (storage.getProcess() == null && this.processes.size() > 0) {
+				storage.setProcess(this.processes
+						.get(this.processes.size() - 1));
+				this.processes.get(this.processes.size() - 1).addChild(
+						storage);
+			} else if (storage.getProcess() == null) {
+				Process process = new Process();
+				this.processes.add(process);
+				process.setId(SignavioUUID.generate());
+				process.addChild(storage);
+				storage.setProcess(process);
+			}
+
+		}
+	}
+	
+	/**
+	 * Retrieves all storage elements.
+	 * 
+	 * @param elements
+	 *            The list of {@link BPMNElement}.
+	 * 
+	 * @param dataObjects
+	 *            The resulting list of {@link Storage}
+	 */
+	private void getAllStorages(List<BPMNElement> elements,
+			List<Storage> storages) {
+		for (BPMNElement element : elements) {
+			if (element.getNode() instanceof Lane
+					|| element.getNode() instanceof SubProcess) {
+				getAllStorages(this.getChildElements(element), storages);
+				continue;
+			}
+
+			if (element.getNode() instanceof Storage) {
+				storages.add((Storage) element.getNode());
+			}
+		}
+	}
 	/**
 	 * 
 	 * @return All {@link Artifact} contained in the diagram.
@@ -1896,6 +1949,9 @@ public class Diagram2BpmnConverter {
 		this.addAssociationsToConversation();
 		this.createProcessIOSpec();
 		this.processChoreographies();
+		
+		/* cloud resource elements */
+		this.handleStorages();
 		
 		/* Globally defined elements */
 		this.putGlobalElementsIntoDefinitions();

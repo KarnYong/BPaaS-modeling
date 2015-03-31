@@ -69,6 +69,7 @@ import de.hpi.bpmn2_0.factory.node.MessageFactory;
 import de.hpi.bpmn2_0.factory.node.ParticipantFactory;
 import de.hpi.bpmn2_0.factory.node.ProcessParticipantFactory;
 import de.hpi.bpmn2_0.factory.node.StartEventFactory;
+import de.hpi.bpmn2_0.factory.node.StorageFactory;
 import de.hpi.bpmn2_0.factory.node.SubprocessFactory;
 import de.hpi.bpmn2_0.factory.node.TaskFactory;
 import de.hpi.bpmn2_0.factory.node.TextannotationFactory;
@@ -126,6 +127,7 @@ public abstract class AbstractBpmnFactory {
 		factoryClasses.add(ProcessParticipantFactory.class);
 		factoryClasses.add(StartEventFactory.class);
 		factoryClasses.add(TextannotationFactory.class);
+		factoryClasses.add(StorageFactory.class);
 	}
 	
 	public static List<Class<? extends AbstractBpmnFactory>> getFactoryClasses() {

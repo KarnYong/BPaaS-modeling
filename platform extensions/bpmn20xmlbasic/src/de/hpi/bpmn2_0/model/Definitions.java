@@ -43,6 +43,7 @@ import de.hpi.bpmn2_0.annotations.ContainerElement;
 import de.hpi.bpmn2_0.model.bpmndi.BPMNDiagram;
 import de.hpi.bpmn2_0.model.bpmndi.BPMNPlane;
 import de.hpi.bpmn2_0.model.choreography.Choreography;
+import de.hpi.bpmn2_0.model.cloudresource.Storage;
 import de.hpi.bpmn2_0.model.connector.Edge;
 import de.hpi.bpmn2_0.model.connector.MessageFlow;
 import de.hpi.bpmn2_0.model.conversation.Conversation;
@@ -110,7 +111,8 @@ public class Definitions {
 			@XmlElementRef(type = Collaboration.class),
 			@XmlElementRef(type = Conversation.class),
 			@XmlElementRef(type = Signal.class),
-			@XmlElementRef(type = Message.class)})
+			@XmlElementRef(type = Message.class),
+			@XmlElementRef(type = Storage.class)})
 	protected List<BaseElement> rootElement;
 	
 	@XmlElementRef
