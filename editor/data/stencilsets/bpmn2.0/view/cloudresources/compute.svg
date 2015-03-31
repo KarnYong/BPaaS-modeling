@@ -1,0 +1,24 @@
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+ <title>Compute</title>
+ <defs>
+			<radialGradient id="background" cx="30%" cy="30%" r="50%" fx="0%" fy="0%">
+				<stop offset="0%" stop-color="#ffffff" stop-opacity="1"></stop>
+				<stop offset="100%" stop-color="#ffffff" stop-opacity="1" id="fill_el"></stop>
+			</radialGradient>
+		</defs>
+
+  <rect ry="11" rx="11" id="bg_frame" height="103" width="60" y="116" x="176" stroke-linecap="null" stroke-linejoin="null" stroke-width="2" stroke="#000000" fill="url(#background) #ffffff"/>
+  <rect ry="2" rx="2" id="bg_frame" height="12" width="45" y="128" x="184" stroke-linecap="null" stroke-linejoin="null" stroke-width="2" stroke="#4c4c4c" fill="#7f7f7f"/>
+  <rect ry="2" rx="2" id="bg_frame" height="12" width="45" y="145" x="184" stroke-linecap="null" stroke-linejoin="null" stroke-width="2" stroke="#4c4c4c" fill="#7f7f7f"/>
+
+<text 
+			font-size="12" 
+			id="text_name" 
+			x="180" 
+			y="235" 
+			stroke="black">
+		</text>
+ </g>
+</svg>

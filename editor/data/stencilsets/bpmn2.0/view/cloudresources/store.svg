@@ -1,0 +1,22 @@
+<svg width="63.001px" height="61.173px" xmlns="http://www.w3.org/2000/svg">
+ <g>
+ <defs>
+			<radialGradient id="background" cx="30%" cy="30%" r="50%" fx="0%" fy="0%">
+				<stop offset="0%" stop-color="#ffffff" stop-opacity="1"></stop>
+				<stop offset="100%" stop-color="#ffffff" stop-opacity="1" id="fill_el"></stop>
+			</radialGradient>
+		</defs>
+  <path id="bg_frame" 
+   d="m293.339661,139.946701c0,6.811325 -13.766876,12.333527 -30.749512,12.333527m30.749512,-12.333527l0,0c0,6.811325 -13.766876,12.333527 -30.749512,12.333527c-16.982666,0 -30.750153,-5.522202 -30.750153,-12.333527m0,0l0,0c0,-6.811203 13.767487,-12.333366 30.750153,-12.333366c16.982635,0 30.749512,5.522163 30.749512,12.333366l0,49.333252c0,6.811172 -13.766876,12.333389 -30.749512,12.333389c-16.982666,0 -30.750153,-5.522217 -30.750153,-12.333389l0,-49.333252z"
+   opacity="0.66" stroke-linecap="null" stroke-linejoin="null" stroke-width="2" 
+   stroke="#000000" fill="url(#background) none"/>
+   <text font-size="12" id="text_name" x="31" y="66" stroke="black" />
+ <text 
+			font-size="12" 
+			id="text_name" 
+			x="240" 
+			y="220" 
+			stroke="black">
+		</text>
+ </g>
+</svg>

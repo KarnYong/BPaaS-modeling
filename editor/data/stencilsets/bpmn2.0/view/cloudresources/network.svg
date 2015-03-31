@@ -1,0 +1,25 @@
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>Network</title>
+  <defs>
+			<radialGradient id="background" cx="30%" cy="30%" r="50%" fx="0%" fy="0%">
+				<stop offset="0%" stop-color="#ffffff" stop-opacity="1"></stop>
+				<stop offset="100%" stop-color="#ffffff" stop-opacity="1" id="fill_el"></stop>
+			</radialGradient>
+		</defs>
+  <rect id="bg_frame" height="32" width="101" y="160" x="147" stroke-linecap="null" stroke-linejoin="null" stroke-width="2" stroke="#000000" fill="url(#background) none"/>
+  <rect id="svg_4" height="10" width="25" y="175" x="165" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_5" height="10" width="25" y="175" x="205" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_6" height="7" width="11" y="168" x="172" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_7" height="7" width="11" y="168" x="212" stroke-linecap="null" stroke-linejoin="null" stroke="#000000" fill="#000000"/>
+ <text 
+			font-size="12" 
+			id="text_name" 
+			x="155" 
+			y="210" 
+			stroke="black">
+		</text>
+ 
+ </g>
+</svg>
