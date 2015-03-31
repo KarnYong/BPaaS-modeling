@@ -68,8 +68,8 @@ public class QueryHandler extends BasisHandler {
 		try {
 			String processPath = jParams.getString("processPath");
 				
-    		
-    		String modelSVG = getSvgRepresentation(new File(URLDecoder.decode(processPath, "UTF-8")));
+			String modelSVG = getSvgRepresentation(new File("C:\\repo\\fragment\\BPaaS1-1.signavio.xml"));
+//    		String modelSVG = getSvgRepresentation(new File(URLDecoder.decode(processPath, "UTF-8")));
     		String modelSVG2 = getSvgRepresentation(new File("C:\\repo\\Invoice\\BPaaS2.signavio.xml"));
     		JSONArray recommendsJSON = getRecommendationJSON();
 
