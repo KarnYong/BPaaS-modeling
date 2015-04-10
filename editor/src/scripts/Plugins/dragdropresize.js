@@ -121,6 +121,35 @@ ORYX.Plugins.DragDropResize = ORYX.Plugins.AbstractPlugin.extend({
 	 *
 	 */
 	handleMouseUp: function(event) {
+		// Check if selected shape is XOR Connector
+		var selectedShape = this.currentShapes[0];
+		if (selectedShape.getStencil().title() == 'XOR Connector') {
+			// Get all shapes
+			var allShapes = this.facade.getJSON().childShapes;
+			
+			// Get outgoing control flows' id of the selected shape
+			var selectedOutgoings = this.currentShapes[0].outgoing;
+			var targets = "";
+			for (var i = 0; i < selectedOutgoings.length; ++i) {
+				
+				// Get control flow shapes by outgoing control flows' id
+				var selectedOutgoingId = selectedOutgoings[i].resourceId;
+				for (var j = 0; j < allShapes.length; ++j) {
+ 					if (allShapes[j].resourceId == selectedOutgoingId) {
+ 						
+ 						// Get target shapes by control flow' outgoing ids
+ 						var targetShapeId = allShapes[j].outgoing[0].resourceId;
+						for (var k = 0; k < allShapes.length; ++k) {
+ 							if (allShapes[k].resourceId == targetShapeId) {
+								targets += allShapes[k].properties.title + ",";
+ 							}
+						}
+ 					}
+				}
+			}
+			// Set property of selected shape
+			selectedShape.properties['oryx-target'] = targets;
+		}
 		
 		//disable containment highlighting
 		this.facade.raiseEvent({

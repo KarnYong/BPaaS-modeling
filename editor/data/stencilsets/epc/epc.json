@@ -300,6 +300,16 @@
 					"refToView":"celem",
 					"fill":true,
 					"stroke":false
+				}, 
+				{
+					"id":"target",
+					"type":"String",
+					"title":"Target elements",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
 				}
 			]
 		},
